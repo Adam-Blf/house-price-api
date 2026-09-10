@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Modele entraine : reproductible avec `python train_model.py`
+regression.joblib
+
+# Outils
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Systeme et editeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
