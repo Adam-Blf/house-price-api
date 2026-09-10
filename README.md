@@ -54,7 +54,6 @@ Une fois le service lancé, la documentation générée par FastAPI est sur
 | Méthode | Chemin | Rôle |
 |---|---|---|
 | `GET` | `/health` | Sonde de vie. Ne charge pas le modèle. |
-| `GET` | `/predict` | Prédiction depuis des paramètres d'URL. |
 | `POST` | `/predict` | Prédiction depuis un corps JSON. |
 
 Trois caractéristiques en entrée : `size` la surface habitable en mètres carrés,
@@ -99,7 +98,8 @@ print(reponse.json()["y_pred"])
 .venv/Scripts/python -m pytest tests -q
 ```
 
-Sept tests. La plupart contrôlent la plomberie HTTP, mais l'un vérifie que le
+Sept tests, dont un qui vérifie que le GET retiré répond bien `405`. La
+plupart contrôlent la plomberie HTTP, mais l'un vérifie que le
 prix monte quand la surface monte. Sans lui, la suite resterait verte avec les
 colonnes du modèle branchées à l'envers.
 
@@ -109,7 +109,7 @@ colonnes du modèle branchées à l'envers.
 docker build -t house-price-api:1.0.0 .
 docker run -d --name house-price-api -p 8008:8000 house-price-api:1.0.0
 
-curl "http://127.0.0.1:8008/predict?size=120&nb_rooms=3&garden=1"
+curl -X POST http://127.0.0.1:8008/predict   -H "Content-Type: application/json" -d '{"size": 120, "nb_rooms": 3, "garden": 1}'
 ```
 
 Sans `-p`, le service écoute à l'intérieur du conteneur et personne ne le voit
@@ -171,7 +171,7 @@ redémarrage de la machine virtuelle.
 ### Vérification depuis une autre machine
 
 ```bash
-curl "http://<adresse-de-la-vm>:8084/predict?size=120&nb_rooms=3&garden=1"
+curl -X POST http://<adresse-de-la-vm>:8084/predict   -H "Content-Type: application/json"   -d '{"size": 120, "nb_rooms": 3, "garden": 1}'
 # {"y_pred":289962.4945993448}
 ```
 

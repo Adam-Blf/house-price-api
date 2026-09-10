@@ -3,7 +3,6 @@
 Le modèle doit exister avant de lancer ces tests : `python train_model.py`.
 """
 
-import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -19,33 +18,31 @@ def test_health_repond_ok():
     assert response.json() == {"status": "ok"}
 
 
-def test_predict_get_rend_un_prix():
-    response = client.get("/predict", params=HOUSE)
-    assert response.status_code == 200
-    assert response.json()["y_pred"] > 0
-
-
-def test_predict_post_rend_un_prix():
+def test_predict_rend_un_prix():
     response = client.post("/predict", json=HOUSE)
     assert response.status_code == 200
     assert response.json()["y_pred"] > 0
 
 
-def test_les_deux_verbes_donnent_la_meme_valeur():
-    """GET et POST servent le même modèle : ils ne peuvent pas diverger."""
-    by_get = client.get("/predict", params=HOUSE).json()["y_pred"]
-    by_post = client.post("/predict", json=HOUSE).json()["y_pred"]
-    assert by_get == pytest.approx(by_post)
+def test_predict_en_get_est_refuse():
+    """L'endpoint GET a été retiré : il doit répondre 405, pas 200."""
+    response = client.get("/predict", params=HOUSE)
+    assert response.status_code == 405
 
 
 def test_une_surface_negative_est_refusee():
-    response = client.get("/predict", params={**HOUSE, "size": -10})
+    response = client.post("/predict", json={**HOUSE, "size": -10})
     assert response.status_code == 422
 
 
 def test_un_jardin_hors_bornes_est_refuse():
     """Le modèle a été entraîné sur garden dans {0, 1} : 2 n'a aucun sens."""
     response = client.post("/predict", json={**HOUSE, "garden": 2})
+    assert response.status_code == 422
+
+
+def test_un_champ_manquant_est_refuse():
+    response = client.post("/predict", json={"size": 120})
     assert response.status_code == 422
 
 
