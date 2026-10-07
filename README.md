@@ -1,5 +1,14 @@
 # Prédiction du prix des maisons, en production
 
+<!-- adam-badges:start -->
+[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/house-price-api?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/house-price-api/commits)
+[![visites](https://hits.sh/github.com/Adam-Blf/house-price-api.svg?style=flat-square&label=visites&color=001329)](https://hits.sh/github.com/Adam-Blf/house-price-api/)
+[![last commit](https://img.shields.io/github/last-commit/Adam-Blf/house-price-api?color=D4A437&style=flat-square&label=dernier%20push)](https://github.com/Adam-Blf/house-price-api/commits)
+[![top language](https://img.shields.io/github/languages/top/Adam-Blf/house-price-api?style=flat-square)](https://github.com/Adam-Blf/house-price-api)
+[![license](https://img.shields.io/github/license/Adam-Blf/house-price-api?style=flat-square&color=D4A437)](LICENSE)
+[![version](https://img.shields.io/badge/version-0.1.0-D4A437?style=flat-square)](CHANGELOG.md)
+<!-- adam-badges:end -->
+
 Un modèle de régression linéaire sorti du notebook et mis en ligne par paliers :
 d'abord un service web en local, puis le même service dans un conteneur, puis le
 conteneur sur une machine distante.
